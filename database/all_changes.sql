@@ -48,8 +48,9 @@ CREATE TABLE `branches` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `branch_name` varchar(50) DEFAULT NULL,
   `bank_id` int(11) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ;
+);
 
 --- branch table end
 
