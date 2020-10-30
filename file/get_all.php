@@ -30,8 +30,6 @@ if ($num > 0) {
         $file_row = array(
             "id" => $id,
             "name" => $name,
-            "size" => $size,
-            "downloads" => $downloads,
             "file_path" => $file_path,
             "bank_id" => $bank_id,
             "bank_name" => $bank_name,

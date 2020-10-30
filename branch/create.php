@@ -24,11 +24,13 @@ if (
 ) {
 
     $branch->branch_name = $data->branch_name;
+    $branch->bank_id = $data->bank_id;
+    $branch->address = $data->address;
 
     if ($branch->createbranch()) {
 
         http_response_code(201);
-        echo json_encode(array("message" => "branch was created."));
+        echo json_encode(array("message" => "Branch was created."));
     } else {
         http_response_code(503);
         echo json_encode(array("message" => "Unable to create branch."));

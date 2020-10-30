@@ -14,10 +14,8 @@ include_once '../objects/bank.php';
 $database = new Database();
 $db = $database->getConnection();
 
-// prepare product object
 $bank = new Bank($db);
 
-// read the details of product to be edited
 $stmt = $bank->fetchAllBanks();
 $num = $stmt->rowCount();
 

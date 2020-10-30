@@ -15,31 +15,38 @@ $database = new Database();
 $db = $database->getConnection();
 
 // initialize object
-$file = new File($db);
+$fileObj = new File($db);
 
-$data = json_decode(file_get_contents("php://input"));
+// name of file
+$filename = $_FILES['file']['name'];
+
+// destination of the file on the server
+$destination = 'uploads/' . $filename;
+$uploadDestination = '../uploads/' . $filename;
+
+// the physical file on a temporary uploads directory on the server
+$file = $_FILES['file']['tmp_name'];
+
 
 if (
-    !empty($data->name) &&
-    !empty($data->size) &&
-    !empty($data->file_path) &&
-    !empty($data->bank_id)
+    !empty($_POST["name"]) &&
+    !empty($_POST["bank_id"])
 ) {
 
-    $file->name = $data->name;
-    $file->size = $data->size;
-    $file->file_path = $data->file_path;
-    $file->bank_id = $data->bank_id;
+    $fileObj->name = $_POST["name"];
+    $fileObj->bank_id = $_POST["bank_id"];
+    $fileObj->file_path = $destination;
 
-    if ($file->creatFile()) {
-        http_response_code(201);
-        echo json_encode(array("message" => "File was created."));
-    } else {
-        http_response_code(503);
-        echo json_encode(array("message" => "Unable to create file."));
+    if (move_uploaded_file($file, $uploadDestination)) {
+        if ($fileObj->creatFile()) {
+            http_response_code(201);
+            echo json_encode(array("message" => "File was created."));
+        } else {
+            http_response_code(503);
+            echo json_encode(array("message" => "Unable to create file."));
+        }
     }
 } else {
     http_response_code(400);
     echo json_encode(array("message" => "Unable to create file. Data is incomplete."));
 }
-?>

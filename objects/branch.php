@@ -8,8 +8,10 @@ class Branch
     private $table_name = "branches";
 
     // object properties
-    public $branch_id;
+    public $id;
     public $branch_name;
+    public $address;
+    public $bank_id;
 
     // constructor with $db as database connection
     public function __construct($db)
@@ -17,17 +19,24 @@ class Branch
         $this->conn = $db;
     }
 
-    function getBranchesForbranch($branch_id)
+    function getAllBranchesForBank()
     {
         $query = "SELECT
-                branch_id, branch_name
+                id, branch_name, address, bank_id
             FROM
                 " . $this->table_name . " 
+            WHERE bank_id = :bank_id
             ORDER BY
                 branch_name";
-
+        
         // prepare query statement
         $stmt = $this->conn->prepare($query);
+
+        //sanitizing for sql injection
+        $this->bank_id = htmlspecialchars(strip_tags($this->bank_id));
+
+        // bind values
+        $stmt->bindParam(":bank_id", $this->bank_id);
 
         // execute query
         $stmt->execute();
@@ -39,15 +48,22 @@ class Branch
     {
         $query = "INSERT INTO " . $this->table_name . " 
                   SET
-                    branch_name= :branch_name";
+                    branch_name= :branch_name, 
+                    bank_id= :bank_id, 
+                    address= :address
+                    ";
 
         $stmt = $this->conn->prepare($query);
 
         //sanitizing for sql injection
         $this->branch_name = htmlspecialchars(strip_tags($this->branch_name));
+        $this->bank_id = htmlspecialchars(strip_tags($this->bank_id));
+        $this->address = htmlspecialchars(strip_tags($this->address));
 
         // bind values
         $stmt->bindParam(":branch_name", $this->branch_name);
+        $stmt->bindParam(":bank_id", $this->bank_id);
+        $stmt->bindParam(":address", $this->address);
 
         if ($stmt->execute()) {
             return true;
@@ -58,16 +74,16 @@ class Branch
 
     function fetchbranch()
     {
-        $query = "SELECT branch_id, branch_name 
+        $query = "SELECT id, branch_name, address, bank_id 
                         from " . $this->table_name . " 
-                        where branch_id = ?
+                        where id = ?
                         LIMIT 0,1";
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);
 
         // bind id of product to be updated
-        $stmt->bindParam(1, $this->branch_id);
+        $stmt->bindParam(1, $this->id);
 
         // execute query
         $stmt->execute();
@@ -76,7 +92,8 @@ class Branch
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // set values to object properties
-        $this->branch_id = $row['branch_id'];
+        $this->bank_id = $row['bank_id'];
+        $this->address = $row['address'];
         $this->branch_name = $row['branch_name'];
     }
 
@@ -84,7 +101,8 @@ class Branch
     {
         $query = "UPDATE " . $this->table_name . "
                     SET
-                        branch_name = :branch_name
+                        branch_name = :branch_name,
+                        address = :address
                     WHERE branch_id = :branch_id";
 
         $stmt = $this->conn->prepare($query);

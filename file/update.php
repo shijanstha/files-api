@@ -14,23 +14,49 @@ include_once '../objects/file.php';
 $database = new Database();
 $db = $database->getConnection();
 
-$file = new File($db);
+$fileObj = new File($db);
 
-$data = json_decode(file_get_contents("php://input"));
+$destination = "";
+$uploadDestination = "";
 
-$file->id = $data->id;
+$fileObj->id = $_POST["id"];
 
-$file->name = $data->name;
-$file->size = $data->size;
-$file->downloads = $data->downloads;
-$file->file_path = $data->file_path;
-$file->bank_id = $data->bank_id;
+if ($_FILES['file']['name'] != null) {
 
-if ($file->update()) {
-    http_response_code(200);
-    echo json_encode(array("message" => "User Detail updated."));
+    // name of file
+    $filename = $_FILES['file']['name'];
+    // destination of the file on the server
+    $destination = 'uploads/' . $filename;
+    $uploadDestination = '../uploads/' . $filename;
 } else {
-    http_response_code(503);
-    echo json_encode(array("message" => "Unable to update user detail."));
+    $fileObj->fetchFile();
+    $destination = $fileObj->file_path;
 }
-?>
+
+// the physical file on a temporary uploads directory on the server
+$file = $_FILES['file']['tmp_name'];
+
+$fileObj->name = $_POST["name"];
+$fileObj->bank_id = $_POST["bank_id"];
+$fileObj->branch_id = $_POST["branch_id"];
+$fileObj->file_path = $destination;
+
+if ($file != null) {
+    if (move_uploaded_file($file, $uploadDestination)) {
+        if ($fileObj->update()) {
+            http_response_code(200);
+            echo json_encode(array("message" => "File Detail updated."));
+        } else {
+            http_response_code(503);
+            echo json_encode(array("message" => "Unable to update file detail."));
+        }
+    }
+} else {
+    if ($fileObj->update()) {
+        http_response_code(200);
+        echo json_encode(array("message" => "File detail updated."));
+    } else {
+        http_response_code(503);
+        echo json_encode(array("message" => "Unable to update file detail."));
+    }
+}

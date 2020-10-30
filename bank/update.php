@@ -18,9 +18,8 @@ $bank = new Bank($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-$bank->bank_id = $data->bank_id;
+$bank->bank_id = $data->id;
 
-$bank->bank_id = $data->bank_id;
 $bank->bank_name = $data->bank_name;
 
 if ($bank->update()) {

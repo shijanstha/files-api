@@ -25,7 +25,7 @@ class File
     function fetchAllFiles()
     {
         $query = "SELECT
-                f.id as id, f.name as name, f.size as size, f.downloads as downloads, f.file_path as file_path, f.bank_id as bank_id, 
+                f.id as id, f.name as name, f.file_path as file_path, f.bank_id as bank_id, 
                 b.bank_name as bank_name, f.branch_id as branch_id, br.branch_name as branch_name
             FROM
                 " . $this->table_name . " f
@@ -47,20 +47,18 @@ class File
     {
         $query = "INSERT INTO " . $this->table_name . " 
                   SET
-                    name= :name, size= :size, downloads = 0, file_path = :file_path, bank_id = :bank_id, branch_id = :branch_id";
+                    name= :name, file_path = :file_path, bank_id = :bank_id, branch_id = :branch_id";
 
         $stmt = $this->conn->prepare($query);
 
         //sanitizing for sql injection
         $this->name = htmlspecialchars(strip_tags($this->name));
-        $this->size = htmlspecialchars(strip_tags($this->size));
         $this->file_path = htmlspecialchars(strip_tags($this->file_path));
         $this->bank_id = htmlspecialchars(strip_tags($this->bank_id));
         $this->branch_id = htmlspecialchars(strip_tags($this->branch_id));
 
         // bind values
         $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":size", $this->size);
         $stmt->bindParam(":file_path", $this->file_path);
         $stmt->bindParam(":bank_id", $this->bank_id);
         $stmt->bindParam(":branch_id", $this->branch_id);
@@ -74,7 +72,7 @@ class File
 
     function fetchFile()
     {
-        $query = "SELECT f.id, f.name, f.size, f.downloads, f.file_path, f.bank_id, b.bank_name, f.branch_id, br.branch_name 
+        $query = "SELECT f.id, f.name, f.file_path, f.bank_id, b.bank_name, f.branch_id, br.branch_name 
                         from " . $this->table_name . " f 
                         LEFT JOIN banks b 
                         ON f.bank_id = b.bank_id
@@ -96,8 +94,6 @@ class File
         // set values to object properties
         $this->id = $row['id'];
         $this->name = $row['name'];
-        $this->size = $row['size'];
-        $this->downloads = $row['downloads'];
         $this->file_path = $row['file_path'];
         $this->bank_id = $row['bank_id'];
         $this->bank_name = $row['bank_name'];
@@ -112,8 +108,6 @@ class File
         $query = "UPDATE " . $this->table_name . "
                     SET
                         name = :name,
-                        size = :size,
-                        downloads = :downloads,
                         file_path = :file_path,
                         bank_id = :bank_id,
                         branch_id = :branch_id
@@ -122,16 +116,12 @@ class File
         $stmt = $this->conn->prepare($query);
 
         $this->name = htmlspecialchars(strip_tags($this->name));
-        $this->size = htmlspecialchars(strip_tags($this->size));
         $this->file_path = htmlspecialchars(strip_tags($this->file_path));
-        $this->downloads = htmlspecialchars(strip_tags($this->downloads));
         $this->bank_id = htmlspecialchars(strip_tags($this->bank_id));
         $this->branch_id = htmlspecialchars(strip_tags($this->branch_id));
         $this->id = htmlspecialchars(strip_tags($this->id));
 
         $stmt->bindParam(':name', $this->name);
-        $stmt->bindParam(':size', $this->size);
-        $stmt->bindParam(':downloads', $this->downloads);
         $stmt->bindParam(':file_path', $this->file_path);
         $stmt->bindParam(':bank_id', $this->bank_id);
         $stmt->bindParam(':branch_id', $this->branch_id);

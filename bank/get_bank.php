@@ -15,7 +15,7 @@ $db = $database->getConnection();
 
 $bank = new Bank($db);
 
-$bank->bank_id = isset($_GET['bank_id']) ? $_GET['bank_id'] : die();
+$bank->bank_id = isset($_GET['id']) ? $_GET['id'] : die();
 
 $bank->fetchBank();
 

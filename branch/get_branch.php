@@ -8,28 +8,29 @@ header('Content-Type: application/json');
 
 // include database and object files
 include_once '../config/database.php';
-include_once '../objects/bank.php';
+include_once '../objects/branch.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-$bank = new Bank($db);
+$branch = new Branch($db);
 
-$bank->bank_id = isset($_GET['bank_id']) ? $_GET['bank_id'] : die();
+$branch->id = isset($_GET['id']) ? $_GET['id'] : die();
 
-$bank->fetchBank();
+$branch->fetchbranch();
 
-if ($bank->bank_name != null) {
+if ($branch->branch_name != null) {
 
-    $bank_arr = array(
-        "bank_id" => $bank->bank_id,
-        "bank_name" => $bank->bank_name
+    $branch_arr = array(
+        "bank_id" => $branch->bank_id,
+        "branch_name" => $branch->branch_name,
+        "address" => $branch->address
     );
 
     http_response_code(200);
-    echo json_encode($bank_arr);
+    echo json_encode($branch_arr);
 } else {
     http_response_code(404);
-    echo json_encode(array("message" => "Bank does not exist."));
+    echo json_encode(array("message" => "Branch does not exist."));
 }
 ?>

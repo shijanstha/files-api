@@ -8,24 +8,24 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 // include database and object file
 include_once '../config/database.php';
-include_once '../objects/bank.php';
+include_once '../objects/branch.php';
 
 // get database connection
 $database = new Database();
 $db = $database->getConnection();
 
-$bank = new Bank($db);
+$branch = new Branch($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-$bank->bank_id = $data->bank_id;
+$branch->id = $data->id;
 
-if ($bank->delete()) {
+if ($branch->delete()) {
 
     http_response_code(200);
-    echo json_encode(array("message" => "Bank was deleted."));
+    echo json_encode(array("message" => "Branch was deleted."));
 } else {
     http_response_code(503);
-    echo json_encode(array("message" => "Unable to delete bank."));
+    echo json_encode(array("message" => "Unable to delete branch."));
 }
 ?>
