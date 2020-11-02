@@ -9,17 +9,14 @@ class User
 
     // object properties
     public $id;
-    public $fname;
-    public $lname;
+    public $name;
+    public $address;
     public $user_name;
     public $password;
     public $contactno;
     public $posting_date;
     public $bank_id;
-    public $branch_id;
-    public $role;
     public $bank_name;
-    public $branch_name;
 
     // constructor with $db as database connection
     public function __construct($db)
@@ -30,19 +27,15 @@ class User
     function fetchAllUsers()
     {
         $query = "SELECT
-                u.id as id, u.fname as fname, u.lname as lname, u.user_name as user_name, u.posting_date as posting_date,
-                u.password as password, u.contactno as contactno, u.bank_id as bank_id, b.bank_name as bank_name, 
-                u.branch_id, u.role, br.branch_name
+                u.id as id, u.name as name, u.address as address, u.user_name as user_name, u.posting_date as posting_date,
+                u.password as password, u.contactno as contactno, u.bank_id as bank_id, b.bank_name as bank_name 
             FROM
                 " . $this->table_name . " u
                 LEFT JOIN
                     banks b
                         ON u.bank_id = b.bank_id
-                LEFT JOIN
-                    branches br
-                        ON u.branch_id = br.id
             ORDER BY
-                u.fname";
+                u.name";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -53,7 +46,7 @@ class User
     {
 
         // select all query
-        $query = "SELECT * FROM " . $this->table_name . " where user_name = :user_name and password = :password";
+        $query = "SELECT * FROM " . $this->table_name . " where user_name = :username and password = :pwd";
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -63,9 +56,8 @@ class User
         $this->password = htmlspecialchars(strip_tags($this->password));
 
         // binding
-        $stmt->bindParam(":user_name", $this->user_name);
-        $stmt->bindParam(":password", $this->password);
-
+        $stmt->bindParam(":username", $this->user_name);
+        $stmt->bindParam(":pwd", $this->password);
         // execute query
         if ($stmt->execute()) {
             return true;
@@ -78,30 +70,26 @@ class User
     {
         $query = "INSERT INTO " . $this->table_name . " 
                   SET
-                    fname= :fname, lname= :lname, user_name = :user_name, password = :password, 
-                    contactno = :contactno, bank_id = :bank_id, branch_id = :branch_id, role = : role";
+                    name= :name, address= :address, user_name = :user_name, password = :password, 
+                    contactno = :contactno, bank_id = :bank_id";
 
         $stmt = $this->conn->prepare($query);
 
         //sanitizing for sql injection
-        $this->fname = htmlspecialchars(strip_tags($this->fname));
-        $this->lname = htmlspecialchars(strip_tags($this->lname));
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->address = htmlspecialchars(strip_tags($this->address));
         $this->user_name = htmlspecialchars(strip_tags($this->user_name));
         $this->password = htmlspecialchars(strip_tags($this->password));
         $this->contactno = htmlspecialchars(strip_tags($this->contactno));
         $this->bank_id = htmlspecialchars(strip_tags($this->bank_id));
-        $this->branch_id = htmlspecialchars(strip_tags($this->branch_id));
-        $this->role = htmlspecialchars(strip_tags($this->role));
 
         // bind values
-        $stmt->bindParam(":fname", $this->fname);
-        $stmt->bindParam(":lname", $this->lname);
+        $stmt->bindParam(":name", $this->name);
+        $stmt->bindParam(":address", $this->address);
         $stmt->bindParam(":user_name", $this->user_name);
         $stmt->bindParam(":password", $this->password);
         $stmt->bindParam(":contactno", $this->contactno);
         $stmt->bindParam(":bank_id", $this->bank_id);
-        $stmt->bindParam(":branch_id", $this->branch_id);
-        $stmt->bindParam(":role", $this->role);
 
         if ($stmt->execute()) {
             return true;
@@ -112,12 +100,10 @@ class User
 
     function fetchUser()
     {
-        $query = "SELECT u.fname as first_name, u.lname as last_name, u.user_name as user_name,
-                            u.password as password, u.contactno as contactno, u.bank_id as bank_id, b.bank_name as bank_name,
-                            u.branch_id, br.branch_name, u.role       
+        $query = "SELECT u.name as first_name, u.address as last_name, u.user_name as user_name,
+                            u.password as password, u.contactno as contactno, u.bank_id as bank_id, b.bank_name as bank_name      
                         from " . $this->table_name . " u 
                         left join banks b on u.bank_id = b.bank_id
-                        left join branches br on u.branch_id = br.id
                         where u.id = ?
                         LIMIT 0,1";
 
@@ -134,52 +120,43 @@ class User
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // set values to object properties
-        $this->fname = $row['first_name'];
-        $this->lname = $row['last_name'];
+        $this->name = $row['first_name'];
+        $this->address = $row['last_name'];
         $this->user_name = $row['user_name'];
         $this->password = $row['password'];
         $this->contactno = $row['contactno'];
         $this->bank_id = $row['bank_id'];
         $this->bank_name = $row['bank_name'];
-        $this->branch_id = $row['branch_id'];
-        $this->branch_name = $row['branch_name'];
-        $this->role = $row['role'];
     }
 
     function update()
     {
         $query = "UPDATE " . $this->table_name . "
                     SET
-                        fname = :fname,
-                        lname = :lname,
+                        name = :name,
+                        address = :address,
                         user_name = :user_name,
                         password = :password,
                         contactno = :contactno,
-                        bank_id = :bank_id,
-                        branch_id = :branch_id,
-                        role = : role
+                        bank_id = :bank_id
                     WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 
-        $this->fname = htmlspecialchars(strip_tags($this->fname));
-        $this->lname = htmlspecialchars(strip_tags($this->lname));
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->address = htmlspecialchars(strip_tags($this->address));
         $this->user_name = htmlspecialchars(strip_tags($this->user_name));
         $this->password = htmlspecialchars(strip_tags($this->password));
         $this->contactno = htmlspecialchars(strip_tags($this->contactno));
         $this->bank_id = htmlspecialchars(strip_tags($this->bank_id));
-        $this->branch_id = htmlspecialchars(strip_tags($this->branch_id));
-        $this->role = htmlspecialchars(strip_tags($this->role));
         $this->id = htmlspecialchars(strip_tags($this->id));
 
-        $stmt->bindParam(':fname', $this->fname);
-        $stmt->bindParam(':lname', $this->lname);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':address', $this->address);
         $stmt->bindParam(':user_name', $this->user_name);
         $stmt->bindParam(':password', $this->password);
         $stmt->bindParam(':contactno', $this->contactno);
         $stmt->bindParam(':bank_id', $this->bank_id);
-        $stmt->bindParam(':branch_id', $this->branch_id);
-        $stmt->bindParam(':role', $this->role);
         $stmt->bindParam(':id', $this->id);
 
         if ($stmt->execute()) {
@@ -210,5 +187,3 @@ class User
         return false;
     }
 }
-
-?>

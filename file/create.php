@@ -38,7 +38,7 @@ if (
     $fileObj->file_path = $destination;
 
     if (move_uploaded_file($file, $uploadDestination)) {
-        if ($fileObj->creatFile()) {
+        if ($fileObj->createFile()) {
             http_response_code(201);
             echo json_encode(array("message" => "File was created."));
         } else {

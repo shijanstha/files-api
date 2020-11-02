@@ -31,16 +31,13 @@ if ($num > 0) {
 
         $user_row = array(
             "id" => $id,
-            "fname" => $fname,
-            "lname" => $lname,
+            "name" => $name,
+            "address" => $address,
             "user_name" => $user_name,
             "password" => $password,
             "contactno" => $contactno,
             "bank_id" => $bank_id,
-            "bank_name" => $bank_name,
-            "branch_id" => $branch_id,
-            "branch_name" => $branch_name,
-            "role" => $role
+            "bank_name" => $bank_name
         );
 
         array_push($users_arr["records"], $user_row);

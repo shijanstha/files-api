@@ -24,16 +24,13 @@ if ($user->user_name != null) {
     // create array
     $user_arr = array(
         "id" => $user->id,
-        "fname" => $user->fname,
-        "lname" => $user->lname,
+        "name" => $user->name,
+        "address" => $user->address,
         "user_name" => $user->user_name,
         "password" => $user->password,
         "contactno" => $user->contactno,
         "bank_id" => $user->bank_id,
-        "bank_name" => $user->bank_name,
-        "branch_id" => $user->branch_id,
-        "branch_name" => $user->branch_name,
-        "role" => $user->role
+        "bank_name" => $user->bank_name
     );
 
     http_response_code(200);

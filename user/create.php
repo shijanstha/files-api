@@ -22,22 +22,20 @@ $user = new User($db);
 $data = json_decode(file_get_contents("php://input"));
 
 if (
-    !empty($data->fname) &&
-    !empty($data->lname) &&
+    !empty($data->name) &&
+    !empty($data->address) &&
     !empty($data->user_name) &&
     !empty($data->password) &&
-    !empty($data->contactno) &&
-    !empty($data->bank_id) &&
-    !empty($data->branch_id)
+    !empty($data->contact_no) &&
+    !empty($data->bank_id) 
 ) {
 
-    $user->fname = $data->fname;
-    $user->lname = $data->lname;
+    $user->name = $data->name;
+    $user->address = $data->address;
     $user->user_name = $data->user_name;
     $user->password = $data->password;
-    $user->contactno = $data->contactno;
+    $user->contactno = $data->contact_no;
     $user->bank_id = $data->bank_id;
-    $user->branch_id = $data->branch_id;
 
     if ($user->creatUser()) {
         http_response_code(201);

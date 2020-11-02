@@ -20,14 +20,12 @@ $data = json_decode(file_get_contents("php://input"));
 
 $user->id = $data->id;
 
-$user->fname = $data->fname;
-$user->lname = $data->lname;
+$user->name = $data->name;
+$user->address = $data->address;
 $user->user_name = $data->user_name;
 $user->password = $data->password;
-$user->contactno = $data->contactno;
+$user->contactno = $data->contact_no;
 $user->bank_id = $data->bank_id;
-$user->branch_id = $data->branch_id;
-$user->role = $data->role;
 
 if ($user->update()) {
     http_response_code(200);

@@ -26,9 +26,7 @@ if ($file->file_path != null) {
         "name" => $file->name,
         "file_path" => $file->file_path,
         "bank_id" => $file->bank_id,
-        "bank_name" => $row['bank_name'],
-        "branch_id" => $file->branch_id,
-        "branch_name" => $row['branch_name']
+        "bank_name" => $row['bank_name']
     );
 
     http_response_code(200);
@@ -37,4 +35,3 @@ if ($file->file_path != null) {
     http_response_code(404);
     echo json_encode(array("message" => "File does not exist."));
 }
-?>

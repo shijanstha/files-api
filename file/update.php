@@ -38,7 +38,6 @@ $file = $_FILES['file']['tmp_name'];
 
 $fileObj->name = $_POST["name"];
 $fileObj->bank_id = $_POST["bank_id"];
-$fileObj->branch_id = $_POST["branch_id"];
 $fileObj->file_path = $destination;
 
 if ($file != null) {

@@ -1,0 +1,36 @@
+create user:
+localhost/files-api/user/create.php  ----POST request
+{
+    "name" : "asdasd",
+    "user_name" : "Shijan",
+    "password" : "asd@123",
+    "contact_no" : "9801200169",
+    "address" : "wwasdww",
+    "bank_id" : "1"
+}
+
+update user:
+localhost/files-api/user/update.php  ----POST request
+{
+    "name" : "asdfasd",
+    "user_name" : "Shijan Shrestha",
+    "password" : "Computer Engineer",
+    "contact_no" : "9801200169",
+    "address" : "wwwasdww",
+    "bank_id" : "2",
+    "id" : 1
+}
+
+
+delete user:
+localhost/files-api/user/delete.php  ----POST request
+{
+    "id" : 1
+}
+
+
+get all user list:
+localhost/files-api/user/get_all.php --- GET request
+
+get user by id
+localhost/files-api/user/get_user.php?id=1    --- GET request

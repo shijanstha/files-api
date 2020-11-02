@@ -32,9 +32,7 @@ if ($num > 0) {
             "name" => $name,
             "file_path" => $file_path,
             "bank_id" => $bank_id,
-            "bank_name" => $bank_name,
-            "branch_id" => $branch_id,
-            "branch_name" => $branch_name,
+            "bank_name" => $bank_name
         );
 
         array_push($files_arr["records"], $file_row);

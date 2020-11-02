@@ -1,0 +1,30 @@
+create file:
+localhost/files-api/file/create.php  ----POST request
+{
+    "name" : "asdasd",
+    "bank_id" : "1",
+    "file" : "file"
+}
+
+update file:
+localhost/files-api/file/update.php  ----POST request
+{
+    "name" : "asdasd",
+    "bank_id" : "1",
+    "file" : "file",
+    "id" : 1
+}
+
+
+delete file:
+localhost/files-api/file/delete.php  ----POST request
+{
+    "id" : 1
+}
+
+
+get all file list:
+localhost/files-api/file/get_all.php --- GET request
+
+get file by id
+localhost/files-api/file/get_file.php?id=1    --- GET request

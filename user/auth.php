@@ -14,9 +14,6 @@ $user = new User($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-$stmt = $user->authUser();
-$num = $stmt->rowCount();
-
 if (!empty($data->user_name) &&
     !empty($data->password)) {
 

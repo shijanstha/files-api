@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 // include database and object file
 include_once '../config/database.php';
-include_once '../objects/user.php';
+include_once '../objects/file.php';
 
 // get database connection
 $database = new Database();
@@ -22,9 +22,8 @@ $file->id = $data->id;
 
 if ($file->delete()) {
     http_response_code(200);
-    echo json_encode(array("message" => "User was deleted."));
+    echo json_encode(array("message" => "File was deleted."));
 } else {
     http_response_code(503);
-    echo json_encode(array("message" => "Unable to delete user."));
+    echo json_encode(array("message" => "Unable to delete file."));
 }
-?>
