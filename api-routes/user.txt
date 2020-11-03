@@ -1,3 +1,10 @@
+auth user:
+localhost/files-api/user/auth.php    --- POST request
+{
+    "user_name": "asd",
+    "password": "asd@123"
+}
+
 create user:
 localhost/files-api/user/create.php  ----POST request
 {

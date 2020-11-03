@@ -32,6 +32,7 @@ if ($num > 0) {
             "name" => $name,
             "file_path" => $file_path,
             "bank_id" => $bank_id,
+            "upload_date" => $upload_date,
             "bank_name" => $bank_name
         );
 

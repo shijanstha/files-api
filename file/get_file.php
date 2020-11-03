@@ -26,6 +26,7 @@ if ($file->file_path != null) {
         "name" => $file->name,
         "file_path" => $file->file_path,
         "bank_id" => $file->bank_id,
+        "upload_date" => $file->upload_date,
         "bank_name" => $row['bank_name']
     );
 

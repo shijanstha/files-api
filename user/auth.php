@@ -14,14 +14,29 @@ $user = new User($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-if (!empty($data->user_name) &&
-    !empty($data->password)) {
+if (
+    !empty($data->user_name) &&
+    !empty($data->password)
+) {
 
     $user->user_name = $data->user_name;
     $user->password = $data->password;
 
-    if($user->authUser()) {
-        http_response_code(201);
-        echo json_encode(array("message" => "Authentication Successful."));
+    $user->authUser();
+
+    if ($user->id != null) {
+        $user_arr = array(
+            "id" => $user->id,
+            "name" => $user->name,
+            "address" => $user->address,
+            "user_name" => $user->user_name,
+            "password" => $user->password,
+            "contactno" => $user->contactno,
+            "bank_id" => $user->bank_id,
+            "bank_name" => $user->bank_name
+        );
+
+        http_response_code(200);
+        echo json_encode(['message' => 'Authentication Successful.', 'data' => $user_arr]);
     }
 }

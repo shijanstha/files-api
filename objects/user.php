@@ -46,7 +46,9 @@ class User
     {
 
         // select all query
-        $query = "SELECT * FROM " . $this->table_name . " where user_name = :username and password = :pwd";
+        $query = "SELECT u.*, b.bank_name FROM " . $this->table_name . " u 
+                    left join banks b on u.bank_id = b.bank_id
+                    where u.user_name = :uname and u.password = :pwd ";
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -56,14 +58,24 @@ class User
         $this->password = htmlspecialchars(strip_tags($this->password));
 
         // binding
-        $stmt->bindParam(":username", $this->user_name);
+        $stmt->bindParam(":uname", $this->user_name);
         $stmt->bindParam(":pwd", $this->password);
-        // execute query
-        if ($stmt->execute()) {
-            return true;
-        }
 
-        return false;
+        // execute query
+        $stmt->execute();
+
+        // get retrieved row
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // // set values to object properties
+        $this->id = $row['id'];
+        $this->name = $row['name'];
+        $this->address = $row['address'];
+        $this->user_name = $row['user_name'];
+        $this->password = $row['password'];
+        $this->contactno = $row['contactno'];
+        $this->bank_id = $row['bank_id'];
+        $this->bank_name = $row['bank_name'];
     }
 
     function creatUser()
@@ -100,7 +112,7 @@ class User
 
     function fetchUser()
     {
-        $query = "SELECT u.name as first_name, u.address as last_name, u.user_name as user_name,
+        $query = "SELECT u.name as name, u.address as address, u.user_name as user_name,
                             u.password as password, u.contactno as contactno, u.bank_id as bank_id, b.bank_name as bank_name      
                         from " . $this->table_name . " u 
                         left join banks b on u.bank_id = b.bank_id
@@ -120,8 +132,8 @@ class User
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // set values to object properties
-        $this->name = $row['first_name'];
-        $this->address = $row['last_name'];
+        $this->name = $row['name'];
+        $this->address = $row['address'];
         $this->user_name = $row['user_name'];
         $this->password = $row['password'];
         $this->contactno = $row['contactno'];

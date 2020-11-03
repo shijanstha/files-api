@@ -9,7 +9,7 @@ CREATE TABLE `users` (
   `posting_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `bank_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-)
+);
 
 CREATE TABLE `banks` (
   `bank_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -24,5 +24,6 @@ CREATE TABLE `files` (
   `name` varchar(255) DEFAULT NULL,
   `file_path` varchar(255) DEFAULT NULL,
   `bank_id` int(11) DEFAULT NULL,
+  `upload_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ;
+);

@@ -12,7 +12,8 @@ class File
     public $name;
     public $file_path;
     public $bank_id;
-
+    public $upload_date;
+    
     // constructor with $db as database connection
     public function __construct($db)
     {
@@ -22,7 +23,7 @@ class File
     function fetchAllFiles()
     {
         $query = "SELECT
-                f.id as id, f.name as name, f.file_path as file_path, f.bank_id as bank_id, 
+                f.id as id, f.name as name, f.file_path as file_path, f.bank_id as bank_id, f.upload_date as upload_date, 
                 b.bank_name as bank_name
             FROM
                 " . $this->table_name . " f
@@ -64,7 +65,7 @@ class File
 
     function fetchFile()
     {
-        $query = "SELECT f.id, f.name, f.file_path, f.bank_id, b.bank_name 
+        $query = "SELECT f.id, f.name, f.file_path, f.bank_id, f.upload_date, b.bank_name 
                         from " . $this->table_name . " f 
                         LEFT JOIN banks b 
                         ON f.bank_id = b.bank_id
@@ -85,6 +86,7 @@ class File
         $this->id = $row['id'];
         $this->name = $row['name'];
         $this->file_path = $row['file_path'];
+        $this->upload_date = $row['upload_date'];
         $this->bank_id = $row['bank_id'];
         $this->bank_name = $row['bank_name'];
 
