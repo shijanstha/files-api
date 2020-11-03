@@ -1,21 +1,3 @@
-/*
--- Date: 2020-09-10 19:06
-*/
-
--- admin table start
-
-CREATE TABLE `admin` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ;
-
-INSERT INTO admin (`id`,`username`,`password`) VALUES (1,'admin','21232f297a57a5a743894a0e4a801fc3');
-
--- admin table centered
-
--- user table start
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -28,9 +10,6 @@ CREATE TABLE `users` (
   `bank_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
----- user table end
-
---- bank table start
 
 CREATE TABLE `banks` (
   `bank_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -39,22 +18,6 @@ CREATE TABLE `banks` (
   UNIQUE KEY `bank_name_UNIQUE` (`bank_name`)
 );
 
--- bank table end
-
-
----- branch table start
-
--- CREATE TABLE `branches` (
---   `id` int(11) NOT NULL AUTO_INCREMENT,
---   `branch_name` varchar(50) DEFAULT NULL,
---   `bank_id` int(11) DEFAULT NULL,
---   `address` varchar(255) DEFAULT NULL,
---   PRIMARY KEY (`id`)
--- );
-
---- branch table end
-
---- file table start
 
 CREATE TABLE `files` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -63,5 +26,3 @@ CREATE TABLE `files` (
   `bank_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ;
-
---- file table end

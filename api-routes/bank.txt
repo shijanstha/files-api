@@ -1,26 +1,26 @@
-create bank_id:
-localhost/files-api/bank_id/create.php  ----POST request
+create bank:
+localhost/files-api/bank/create.php  ----POST request
 {
     "bank_name" : "asdasd",
 }
 
-update bank_id:
-localhost/files-api/bank_id/update.php  ----POST request
+update bank:
+localhost/files-api/bank/update.php  ----POST request
 {
     "bank_name" : "asdfasd",
     "id" : 1
 }
 
 
-delete bank_id:
-localhost/files-api/bank_id/delete.php  ----POST request
+delete bank:
+localhost/files-api/bank/delete.php  ----POST request
 {
     "id" : 1
 }
 
 
-get all bank_id list:
-localhost/files-api/bank_id/get_all.php --- GET request
+get all bank list:
+localhost/files-api/bank/get_all.php --- GET request
 
-get bank_id by id
-localhost/files-api/bank_id/get_bank.php?id=1    --- GET request
+get bank by id
+localhost/files-api/bank/get_bank.php?id=1    --- GET request
