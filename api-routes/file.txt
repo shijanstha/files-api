@@ -22,6 +22,12 @@ localhost/files-api/file/delete.php  ----POST request
     "id" : 1
 }
 
+get file by bank id:
+localhost/files-api/file/get_files_by_bank_id.php  ----POST request
+{
+    "bank_id" : 1
+}
+
 
 get all file list:
 localhost/files-api/file/get_all.php --- GET request

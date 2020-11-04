@@ -38,6 +38,26 @@ class File
         return $stmt;
     }
 
+    function fetchFilesByBankId()
+    {
+        $query = "SELECT
+                f.id as id, f.name as name, f.file_path as file_path, f.bank_id as bank_id, f.upload_date as upload_date, 
+                b.bank_name as bank_name
+            FROM
+                " . $this->table_name . " f
+                LEFT JOIN
+                    banks b
+                        ON f.bank_id = b.bank_id
+                Where f.bank_id = ?
+            ORDER BY
+                id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->bank_id);
+        $stmt->execute();
+        return $stmt;
+    }
+
     function createFile()
     {
         $query = "INSERT INTO " . $this->table_name . " 
