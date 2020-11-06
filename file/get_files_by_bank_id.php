@@ -16,11 +16,9 @@ $db = $database->getConnection();
 
 $file = new File($db);
 
-$data = json_decode(file_get_contents("php://input"));
+if (!empty($_POST["bank_id"])) {
 
-if (!empty($data->bank_id)) {
-
-    $file->bank_id = $data->bank_id;
+    $file->bank_id = $_POST["bank_id"];
 
     $stmt = $file->fetchFilesByBankId();
     $num = $stmt->rowCount();

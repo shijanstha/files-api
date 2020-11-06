@@ -1,0 +1,6 @@
+login:
+localhost/files-api/admin/login.php    --- POST request
+{
+    "user_name": "asd",
+    "password": "asd@123"
+}

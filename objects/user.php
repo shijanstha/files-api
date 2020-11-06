@@ -78,7 +78,7 @@ class User
         $this->bank_name = $row['bank_name'];
     }
 
-    function creatUser()
+    function createUser()
     {
         $query = "INSERT INTO " . $this->table_name . " 
                   SET
